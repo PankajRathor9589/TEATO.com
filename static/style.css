@@ -1,0 +1,79 @@
+/* TEATO Custom Styling */
+:root {
+    --teato-red: #e03942;
+    --teato-dark: #242424;
+    --light-gray: #f8f9fa;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--light-gray);
+}
+
+/* Navigation */
+.navbar-brand {
+    font-size: 2rem;
+    letter-spacing: 1px;
+}
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1470&auto=format&fit=crop');
+    height: 70vh;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.search-container {
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 800px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+}
+
+/* Food Cards */
+.food-card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.food-card:hover {
+    transform: translateY(-10px);
+}
+
+.food-card img {
+    height: 200px;
+    object-fit: cover;
+}
+
+.category-title {
+    margin-top: 40px;
+    margin-bottom: 25px;
+    font-weight: 700;
+    border-left: 5px solid var(--teato-red);
+    padding-left: 15px;
+}
+
+.btn-order {
+    background-color: var(--teato-red);
+    color: white;
+    width: 100%;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.btn-order:hover {
+    background-color: #c02d35;
+    color: white;
+}

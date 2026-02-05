@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEATO Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta http-equiv="refresh" content="30">
+    <style>
+        :root { --admin-red: #dc3545; --admin-dark: #1a1a1a; }
+        body { background-color: #f0f2f5; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .sidebar { background: var(--admin-dark); min-height: 100vh; color: white; padding: 20px; }
+        .order-card { border-radius: 15px; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .status-badge { font-size: 0.8rem; padding: 5px 12px; border-radius: 20px; font-weight: 600; }
+        .pending-bg { background-color: #fff3cd; color: #856404; }
+        .cooking-bg { background-color: #cce5ff; color: #004085; }
+        .out-bg { background-color: #d1ecf1; color: #0c5460; }
+        .delivered-bg { background-color: #d4edda; color: #155724; }
+    </style>
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 sidebar d-none d-md-block">
+            <h3 class="fw-bold text-danger mb-4">TEATO ADMIN</h3>
+            <hr>
+            <ul class="nav flex-column">
+                <li class="nav-item mb-2"><a href="/admin-panel/" class="nav-link text-white active">Orders</a></li>
+                <li class="nav-item mb-2"><a href="/admin/" class="nav-link text-white">Database</a></li>
+                <li class="nav-item mb-2"><a href="/" class="nav-link text-white">View Site</a></li>
+                <li class="nav-item mt-5"><a href="/logout/" class="btn btn-danger w-100">Logout</a></li>
+            </ul>
+        </div>
+
+        <div class="col-md-10 p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="fw-bold">Incoming Orders</h2>
+                <span class="text-muted">Last Updated: <span id="time"></span></span>
+            </div>
+
+            <div class="card order-card p-4">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer Name</th>
+                                <th>Item Details</th>
+                                <th>Delivery Address</th>
+                                <th>Rating</th>
+                                <th>Current Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in orders %}
+                            <tr>
+                                <td class="fw-bold text-danger">#{{ order.id }}</td>
+                                <td>{{ order.user.first_name }} <br> <small class="text-muted">{{ order.user.username }}</small></td>
+                                <td>{{ order.item.name }} <br> <small class="fw-bold text-dark">₹{{ order.item.price }}</small></td>
+                                <td style="max-width: 200px;">{{ order.address }}</td>
+                                <td>
+                                    {% if order.rating %}
+                                        <span class="text-warning fw-bold">{{ order.rating }} ⭐</span>
+                                    {% else %}
+                                        <span class="text-muted">N/A</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <span class="status-badge 
+                                        {% if order.status == 'Pending' %}pending-bg{% elif order.status == 'Cooking' %}cooking-bg{% elif order.status == 'Out' %}out-bg{% else %}delivered-bg{% endif %}">
+                                        {{ order.status }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <form action="/update-order/{{ order.id }}/" method="POST" class="d-flex gap-2">
+                                        {% csrf_token %}
+                                        <select name="status" class="form-select form-select-sm" style="width: 130px;">
+                                            <option value="Cooking">Cooking</option>
+                                            <option value="Out">Out for Delivery</option>
+                                            <option value="Delivered">Delivered</option>
+                                        </select>
+                                        <button type="submit" class="btn btn-sm btn-dark">Update</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="7" class="text-center py-5">
+                                    <h4 class="text-muted">No orders found.</h4>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('time').innerHTML = new Date().toLocaleTimeString();
+    
+    {% for order in orders %}
+        {% if order.status == "Pending" %}
+            // Play alert sound only if order is new (Pending)
+            var audio = new Audio('https://www.soundjay.com/buttons/beep-01a.mp3');
+            audio.play().catch(function(error) {
+                console.log("Audio play blocked by browser. Interact with page to enable.");
+            });
+        {% endif %}
+    {% endfor %}
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
