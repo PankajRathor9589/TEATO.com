@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900 font-sans;
+  }
+  body.theme-premium {
+    @apply bg-[#0B1220] text-[#F9FAFB];
+  }
+  /* Touch-friendly minimum tap target */
+  button, a[role="button"], .btn {
+    @apply min-h-[44px] min-w-[44px];
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-teato-500 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:bg-teato-600 active:scale-[0.98] transition-all duration-200;
+  }
+  .btn-secondary {
+    @apply bg-white border-2 border-teato-500 text-teato-600 font-semibold py-3 px-6 rounded-xl hover:bg-teato-50 transition-all duration-200;
+  }
+  .btn-premium {
+    @apply bg-[#FF5A5F] text-white font-semibold py-3 px-8 rounded-2xl shadow-glow-sm hover:bg-[#F43F5E] hover:shadow-glow active:scale-[0.98] transition-all duration-200;
+  }
+  .input-field {
+    @apply w-full rounded-xl border border-gray-300 px-4 py-3 text-base focus:ring-2 focus:ring-teato-500 focus:border-teato-500 outline-none;
+  }
+  .input-premium {
+    @apply w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-[#F9FAFB] placeholder:text-[#94A3B8]/70 focus:ring-2 focus:ring-[#FF5A5F] focus:border-[#FF5A5F] outline-none;
+  }
+  .card {
+    @apply bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden;
+  }
+  .card-premium {
+    @apply bg-[#111827] rounded-2xl shadow-card-dark border border-white/5 overflow-hidden;
+  }
+}
+
+/* Safe area for notched devices */
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class FoodItem(models.Model):
     name = models.CharField(max_length=100)
     price = models.IntegerField()
@@ -11,6 +12,7 @@ class FoodItem(models.Model):
     def __str__(self):
         return self.name
 
+
 class Order(models.Model):
     STATUS_CHOICES = [
         ('Pending', 'Order Received'),
@@ -18,6 +20,7 @@ class Order(models.Model):
         ('Out', 'Out for Delivery'),
         ('Delivered', 'Delivered'),
     ]
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     item = models.ForeignKey(FoodItem, on_delete=models.CASCADE)
     address = models.TextField()
